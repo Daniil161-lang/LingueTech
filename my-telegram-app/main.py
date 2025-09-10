@@ -1,20 +1,24 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-import os
 from pathlib import Path
+import os
 
-# Теперь BASE_DIR указывает на текущую директорию
+# Получаем абсолютный путь к корневой директории
 BASE_DIR = Path(__file__).resolve().parent
 
 app = FastAPI()
 
-# Монтируем статику
-app.mount("/", StaticFiles(directory= "my-telegram-app"/ "static"), name="static")
+# Правильное монтирование статики - убедитесь что путь верный!
+app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
 @app.get("/")
 async def read_index():
-    return FileResponse("my-telegram-app" / "static" / "index.html")
+    # Убедитесь что файл существует по этому пути
+    file_path = BASE_DIR / "static" / "index.html"
+    print(f"Looking for file at: {file_path}")  # Это поможет в диагностике
+    print(f"File exists: {file_path.exists()}")  # Проверить существование файла
+    return FileResponse(file_path)
 
 if __name__ == "__main__":
     import uvicorn
