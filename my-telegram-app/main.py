@@ -10,11 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent
 app = FastAPI()
 
 # Монтируем статику
-app.mount("/", StaticFiles(directory=BASE_DIR / "static"), name="static")
+app.mount("/", StaticFiles(directory= "my-telegram-app"/ "static"), name="static")
 
 @app.get("/")
 async def read_index():
-    return FileResponse(BASE_DIR / "static" / "index.html")
+    return FileResponse("my-telegram-app" / "static" / "index.html")
 
 if __name__ == "__main__":
     import uvicorn
