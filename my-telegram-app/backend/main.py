@@ -1,31 +1,22 @@
-from fastapi import FastAPI, Request, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
-import uvicorn
 import os
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 app = FastAPI()
 
-# Раздаем статичные файлы фронтенда (HTML, CSS, JS)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Монтируем статику
+app.mount("/", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
-# Корневой маршрут отдает нашу HTML-страницу
 @app.get("/")
 async def read_index():
-    return FileResponse("static/index.html")
-
-# API endpoint для принятия данных от фронтенда
-@app.post("/api/save_data")
-async def save_user_data(request: Request):
-    try:
-        data = await request.json()
-        # Здесь вы можете сохранить данные в базу данных
-        # Например: save_to_db(data)
-        print("Получены данные:", data)
-        return JSONResponse({"status": "success", "message": "Данные сохранены"})
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    return FileResponse(BASE_DIR / "static" / "index.html")
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))  # Важно для Render!
+    uvicorn.run(app, host="0.0.0.0", port=port)
     
