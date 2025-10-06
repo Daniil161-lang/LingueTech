@@ -1,8 +1,8 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 from sqlalchemy.orm import Session
-from .database import users, get_db
-from .config import settings
+from app.database import users, get_db
+from app.config import settings
 import logging
 
 logger = logging.getLogger(__name__)
