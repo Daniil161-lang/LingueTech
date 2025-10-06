@@ -17,5 +17,6 @@ class Settings(BaseSettings):
         # раскомментируйте строку ниже. Но лучше привести модель в соответствие.
         # extra = 'ignore'
         env_file = ".env"
+        extra = 'ignore'
 
 settings = Settings()
