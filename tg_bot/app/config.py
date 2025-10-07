@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     # Убедитесь, что имя поля совпадает с именем переменной окружения.
     # Если в Render переменная называется WEBHOOK_BASE_URL, то и поле должно называться так же.
     webhook_base_url: str = "https://your-service-name.onrender.com"  # Можно задать значение по умолчанию
-    model_config = SettingsConfigDict(extra='ignore')
+    model_config = SettingsConfigDict(extra='ignore', env_file=".env")
 
     class Config:
         # Если хотите, чтобы Pydantic автоматически игнорировал лишние переменные,
